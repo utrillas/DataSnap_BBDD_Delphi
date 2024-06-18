@@ -1,0 +1,450 @@
+unit UMovil;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Edit,
+  FMX.StdCtrls, FMX.DateTimeCtrls, FMX.ListBox, FMX.Controls.Presentation,
+  Data.DBXDataSnap, Data.DBXCommon, IPPeerClient, Data.DB, Data.SqlExpr, FMX.DialogService,
+  System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid, Datasnap.DBClient,
+  Data.Bind.EngExt, Fmx.Bind.DBEngExt, Fmx.Bind.Grid, System.Bindings.Outputs,
+  Fmx.Bind.Editors, Data.Bind.Components, Data.Bind.Grid, Data.Bind.DBScope, Json,
+  FMX.TabControl, FMX.Layouts, FMX.MultiView;
+
+type
+  TForm1 = class(TForm)
+    lblnicio: TLabel;
+    lblId: TLabel;
+    lblDireccion: TLabel;
+    lblNombre: TLabel;
+    lblTelefono: TLabel;
+    lblCiudad: TLabel;
+    DEFecha_Nac: TDateEdit;
+    lblFechaNac: TLabel;
+    btnCarga: TButton;
+    btnActualizar: TButton;
+    EDireccion: TEdit;
+    ETelefon: TEdit;
+    ENombre: TEdit;
+    EId: TEdit;
+    SQLConnection1: TSQLConnection;
+    ECiudad: TEdit;
+    StringGrid1: TStringGrid;
+    btnBuscar: TButton;
+    btnClear: TButton;
+    VertScrollBox1: TVertScrollBox;
+    TabColegio: TTabControl;
+    TEstudiante: TTabItem;
+    txtHostname: TEdit;
+    Switch1: TSwitch;
+    txtConexion: TLabel;
+    txtIP: TLabel;
+    txtLogin: TLabel;
+    txtUsuario: TLabel;
+    EdUser: TEdit;
+    txtContraseña: TLabel;
+    EdPassw: TEdit;
+    txtRol: TLabel;
+    btnAceptar: TButton;
+    btnSalir: TButton;
+    CBTipo: TComboBox;
+    TSecretaria: TTabItem;
+    TAdministrador: TTabItem;
+    Tlogin: TTabItem;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Label1: TLabel;
+    Panel5: TPanel;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    DateEdit1: TDateEdit;
+    ECiuSec: TEdit;
+    EPobSec: TEdit;
+    ENomSec: TEdit;
+    EIDSec: TEdit;
+    ETelSec: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    StringGrid2: TStringGrid;
+    Button5: TButton;
+    Button6: TButton;
+    btnOut: TButton;
+    btnOutEstu: TButton;
+    BindSourceDB1: TBindSourceDB;
+    CDSEstudiantes: TClientDataSet;
+    BindingsList1: TBindingsList;
+    BindingsList2: TBindingsList;
+    LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource;
+    LinkGridToDataSourceBindSourceDB12: TLinkGridToDataSource;
+    procedure btnCargaClick(Sender: TObject);
+    procedure btnNuevoClick(Sender: TObject);
+    procedure btnEliminarClick(Sender: TObject);
+    procedure btnBuscarClick(Sender: TObject);
+    procedure btnClearClick(Sender: TObject);
+    procedure rellenarGrid();
+    procedure btnActualizarClick(Sender: TObject);
+    procedure StringGrid1CellClick(const Column: TColumn; const Row: Integer);
+    procedure ENombreKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
+    procedure ETelefonKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
+    procedure ECiudadKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
+    procedure actualizarTabla();
+    procedure Switch1Switch(Sender: TObject);
+    procedure btnAceptarClick(Sender: TObject);
+    procedure OcultarTabs();
+    procedure FormCreate(Sender: TObject);
+    procedure btnOutClick(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    JsonEstudiantes: TJSONArray;
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.fmx}
+
+uses UServerClases;
+
+{ TForm1 }
+
+//validar usuario
+procedure TForm1.btnAceptarClick(Sender: TObject);
+var
+valor: Tservermethods1client;
+begin
+
+  try
+    valor:= TserverMethods1Client.Create(SQLConnection1.DBXConnection);
+  except
+    on E: Exception  do
+    Showmessage('Error de conexion cel servidor, verificar la IP o el switch apagado. ' + e.Message);
+  end;
+
+
+
+  if SQLConnection1.Connected then
+  begin
+     if (valor.ValidarUsuario(QuotedStr(EdUser.Text), QuotedStr(EdPassw.Text), QuotedStr(CBTipo.Selected.Text))) = true then
+      begin
+        showmessage('Bienvenido al sistema');
+        TabColegio.Tabs[3].Visible:= False;
+        if CBTipo.Selected.Text= 'Secretaria' then
+          begin
+            TabColegio.Tabs[0].Visible:= False;
+            TabColegio.Tabs[1].Visible:= True;
+            TabColegio.Tabs[2].Visible:= False;
+
+            TabColegio.ActiveTab := TSecretaria;
+          end
+        else if CBTipo.Selected.Text= 'Usuario' then
+          begin
+            TabColegio.Tabs[0].Visible:= True;
+            TabColegio.Tabs[1].Visible:= False;
+            TabColegio.Tabs[2].Visible:= False;
+
+            TabColegio.ActiveTab := TEstudiante;
+          end
+        else if CBTipo.Selected.Text= 'Administrador' then
+           begin
+            TabColegio.Tabs[0].Visible:= False;
+            TabColegio.Tabs[1].Visible:= False;
+            TabColegio.Tabs[2].Visible:= True;
+
+            TabColegio.ActiveTab := TAdministrador;
+          end;
+      end
+    else
+      begin
+         showmessage('Usuario no registrado');
+      end;
+  end;
+end;
+//boton para actualizar estudiante
+procedure TForm1.btnActualizarClick(Sender: TObject);
+var
+valor: Tservermethods1client;
+begin
+  sqlConnection1.Open;
+   valor:= TserverMethods1Client.Create(SQLConnection1.DBXConnection);
+   if (valor.ActualizarEstudiante(EId.Text, ENombre.text,  EDireccion.Text, ETelefon.Text, ECiudad.Text, FormatDateTime('yyyy-mm-dd',DEFecha_Nac.Date))) then
+    begin
+      showmessage('Se actualizaron los datos del alumno: ' + ENombre.Text);
+    end
+   else
+    begin
+      showmessage('Error, se puedo actualizar los datos del alumno: ' + ENombre.Text);
+      TDialogService.MessageDialog('Error, no se actualizo al alumno: ' + ENombre.Text, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, 0,nil);
+    end;
+actualizarTabla();
+end;
+//Botón para busqueda
+procedure TForm1.btnBuscarClick(Sender: TObject);
+var
+valor: Tservermethods1client;
+busqueda: String;
+begin
+  try
+    sqlConnection1.Open;
+    valor:= TserverMethods1Client.Create(SQLConnection1.DBXConnection);
+    if EId.text <> '' then
+      begin
+        Form1.JsonEstudiantes:= valor.BuscarIdEstudiante(Eid.Text);
+      end
+    else if ENombre.Text <> '' then
+      begin
+        Form1.JsonEstudiantes:= valor.BuscarNombreEstudiante(ENombre.Text);
+      end;
+  except
+   Showmessage('Conexión no realizada');
+  end;
+  rellenarGrid();
+end;
+//Rellena el grid con toda la tabla
+procedure TForm1.btnCargaClick(Sender: TObject);
+begin
+actualizarTabla();
+end;
+//actualizar tabla
+procedure TForm1.actualizarTabla;
+var
+valor: Tservermethods1client;
+begin
+try
+  sqlConnection1.Open;
+  valor:= TserverMethods1Client.Create(SQLConnection1.DBXConnection);
+  Form1.JsonEstudiantes:= valor.CargarGrid();
+Except
+  Showmessage('no se ha realizado la carga');
+end;
+  rellenarGrid();
+end;
+//Botón para limpiar campos
+procedure TForm1.btnClearClick(Sender: TObject);
+begin
+   EId.Text := '';
+   ENombre.Text:= '';
+   EDireccion.Text:= '';
+   ETelefon.Text:= '';
+   ECiudad.Text:= '';
+end;
+//Botón para eliminar un estudiante
+procedure TForm1.btnEliminarClick(Sender: TObject);
+var
+valor: Tservermethods1client;
+begin
+  if EId.Text <> '' then
+    begin
+ ;
+      if( MessageDlg('¿Esta seguro que desea eliminar al estudiante?', TMsgDlgType.mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0) = mrYes)then
+        begin
+           sqlConnection1.Open;
+           valor:= TserverMethods1Client.Create(SQLConnection1.DBXConnection);
+           if (valor.EliminarEstudiante(EId.Text)) then
+            begin
+              showmessage('Registro Eliminado del alumno: ' + EId.Text);
+            end
+           else
+            begin
+              showmessage('Error, no se pudo eliminar al alumno: ' + EId.Text);
+              TDialogService.MessageDialog('Error, no se pudo eliminar al alumno: ' + EId.Text, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, 0,nil);
+            end;
+        end;
+    end
+  else
+    begin
+      showmessage('Por favor, introduzca un valor en el campo id');
+    end;
+ actualizarTabla();
+end;
+//Botón para introducir un nuevo estudiante
+procedure TForm1.btnNuevoClick(Sender: TObject);
+var
+valor: Tservermethods1client;
+begin
+  sqlConnection1.Open;
+   valor:= TserverMethods1Client.Create(SQLConnection1.DBXConnection);
+   if (valor.InsertarEstudiante((ENombre.text), ( EDireccion.Text), (ETelefon.Text), ECiudad.Text, FormatDateTime('yyyy-mm-dd',DEFecha_Nac.Date))) then
+    begin
+      showmessage('Registro Insertardo del alumno: ' + ENombre.Text);
+    end
+   else
+    begin
+      showmessage('Error, no se inserto al alumno: ' + ENombre.Text);
+      TDialogService.MessageDialog('Error, no se inserto al alumno: ' + ENombre.Text, TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, 0,nil);
+    end;
+actualizarTabla();
+end;
+procedure TForm1.btnOutClick(Sender: TObject);
+begin
+  TabColegio.Tabs[3].Visible:= true;
+  TabColegio.ActiveTab:= Tlogin;
+  TabColegio.Tabs[2].Visible:= false;
+  TabColegio.Tabs[1].Visible:= false;
+  TabColegio.Tabs[0].Visible:= false;
+end;
+
+procedure TForm1.btnSalirClick(Sender: TObject);
+begin
+  exit;
+end;
+
+//En el edit Ciudad solamente se puede introducir números ya que se pide el código postal.
+procedure TForm1.ECiudadKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+  if not CharInSet(KeyChar, ['.','0'..'9']) then
+    begin
+      KeyChar := #0;
+    end;
+end;
+ //En el Edit nombre solamente se podrá introducir letras
+procedure TForm1.ENombreKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+  if not CharInSet(KeyChar, ['A'..'Z','a'..'z']) then
+    begin
+      KeyChar:= #0;
+    end;
+end;
+//En el edit de telefono solamente se podrá introducir números
+procedure TForm1.ETelefonKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+  if not CharInSet(KeyChar, ['.','0'..'9']) then
+    begin
+      KeyChar := #0;
+    end;
+end;
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  TabColegio.Tabs[3].Visible:= true;
+  TabColegio.ActiveTab:= Tlogin;
+  TabColegio.Tabs[2].Visible:= false;
+  TabColegio.Tabs[1].Visible:= false;
+  TabColegio.Tabs[0].Visible:= false;
+end;
+
+//ocultar las pestañas
+procedure TForm1.OcultarTabs;
+var I : Integer;
+begin
+  with TabColegio do
+  for I := 0 to TabIndex do
+  begin
+    TabColegio.Tabs[I].Visible := false;
+  end;
+
+end;
+
+//Rellenar el grid
+procedure TForm1.rellenarGrid;
+var I, J, K: Integer;
+Estudiantes: TJsonValue;
+StringGrid : TStringGrid;
+begin
+
+  if TEstudiante.Visible = true then
+    begin
+      StringGrid := StringGrid1;
+    end
+  else if TSecretaria.Visible = True then
+    begin
+      StringGrid := StringGrid2;
+    end;
+  //limpiamos el grid
+  for J := 0 to StringGrid.RowCount - 1 do
+    for K := 0 to StringGrid.ColumnCount - 1 do
+      StringGrid.Cells[K, J] := '';
+
+
+  StringGrid.RowCount := JSonEstudiantes.Count;
+
+  // rellenar el grid showmessage
+  for I := 0 to JSonEstudiantes.Count - 1 do
+    begin
+      Estudiantes:= JSonEstudiantes.Items[I];
+
+      StringGrid1.RowCount := StringGrid.RowCount +1;
+
+      StringGrid.Cells[0,I] := Estudiantes.GetValue<String>('id_estudiante');
+      StringGrid.Cells[1,I] := Estudiantes.GetValue<String>('nombre');
+      StringGrid.Cells[2,I] := Estudiantes.GetValue<String>('direccion');
+      StringGrid.Cells[3,I] := Estudiantes.GetValue<String>('telefono');
+      StringGrid.Cells[4,I] := Estudiantes.GetValue<String>('id_ciudad');
+      StringGrid.Cells[5,I] := Estudiantes.GetValue<String>('fecha_de_nacimiento');
+    end;
+end;
+//Cuando se selecciona una línea, se ponen los datos en los edits.
+procedure TForm1.StringGrid1CellClick(const Column: TColumn;
+  const Row: Integer);
+begin
+  if TEstudiante.Visible then
+    begin
+      EId.Text:= StringGrid1.Cells[0,row];
+      ENombre.Text := StringGrid1.Cells[1,row];
+      EDireccion.Text:= StringGrid1.Cells[2,row];
+      ETelefon.Text:= StringGrid1.Cells[3,row];
+      ECiudad.Text:= StringGrid1.Cells[4,row];
+    end
+  else if TSecretaria.Visible then
+     begin
+        EIDSec.Text:= StringGrid1.Cells[0,row];
+        ENomSec.Text := StringGrid1.Cells[1,row];
+        EPobSec.Text:= StringGrid1.Cells[2,row];
+        ETelSec.Text:= StringGrid1.Cells[3,row];
+        ECiuSec.Text:= StringGrid1.Cells[4,row];
+     end;
+end;
+
+procedure TForm1.Switch1Switch(Sender: TObject);
+begin
+if switch1.IsChecked =  true then
+  begin
+    SQLConnection1.Close;
+    SQLConnection1.Params.Clear;
+    SQLConnection1.Params.Add('DriverUnit=Data.DBXDataSnap');
+    SQLConnection1.Params.Add('Hostname=' + txtHostName.text);
+    SQLConnection1.Params.Add('Port=211');
+    SQLConnection1.Params.Add('CommunicationProtocol=tcp/ip');
+    SQLConnection1.Params.Add('DatasnapContext=datasnap/');
+    SQLConnection1.Params.Add('Borland.Data.TDBXClientDriverLoader,Borland.Data.DbxClientDriver,Version=24.0.0.0,Culture=neutral,PublicKeyToken=91d62ebb5b0d1b1b');
+      try
+        SQLConnection1.connected:= true;
+        txtConexion.Text:= 'ON';
+      except
+        on E: Exception do
+        Showmessage(E.Message + 'Error de conexion con servidor')
+      end;
+
+      if not SQLConnection1.Connected then
+        begin
+          SQLConnection1.connected := false;
+          txtConexion.Text:= 'OFF';
+          switch1.IsChecked := false;
+        end;
+  end
+else
+  begin
+    SQLConnection1.connected := false;
+    txtConexion.Text:= 'OFF';
+  end;
+
+end;
+
+end.

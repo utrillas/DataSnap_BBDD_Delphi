@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{547F5C0B-46EA-4C5A-98D5-766AA2EF72D7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CLIENT\MovilColegio.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="SERVER\ServerColegio.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MovilColegio">
+        <MSBuild Projects="CLIENT\MovilColegio.dproj"/>
+    </Target>
+    <Target Name="MovilColegio:Clean">
+        <MSBuild Projects="CLIENT\MovilColegio.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MovilColegio:Make">
+        <MSBuild Projects="CLIENT\MovilColegio.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ServerColegio">
+        <MSBuild Projects="SERVER\ServerColegio.dproj"/>
+    </Target>
+    <Target Name="ServerColegio:Clean">
+        <MSBuild Projects="SERVER\ServerColegio.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ServerColegio:Make">
+        <MSBuild Projects="SERVER\ServerColegio.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MovilColegio;ServerColegio"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MovilColegio:Clean;ServerColegio:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MovilColegio:Make;ServerColegio:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,64 @@
+object ServerMethods1: TServerMethods1
+  Height = 600
+  Width = 800
+  object Conexion: TFDConnection
+    Params.Strings = (
+      'Database=colegio'
+      'User_Name=SA'
+      'Password=GRUPOCIE'
+      'Server=PACO-CORCOLES\SQLEXPRESS2019'
+      'OSAuthent=No'
+      'ApplicationName=Enterprise/Architect/Ultimate'
+      'Workstation=PACO-CORCOLES'
+      'MARS=yes'
+      'DriverID=MSSQL')
+    Connected = True
+    LoginPrompt = False
+    Left = 282
+    Top = 173
+  end
+  object FDQInsert: TFDQuery
+    Connection = Conexion
+    SQL.Strings = (
+      
+        'insert into estudiantes(nombre, direccion, telefono, id_ciudad, ' +
+        'fecha_de_nacimiento)'
+      'values ('#39'Manuel'#39', '#39'Onil'#39', '#39'123 123 123'#39', 03430, '#39'1990-12-10'#39')')
+    Left = 474
+    Top = 173
+  end
+  object FDQDelete: TFDQuery
+    Connection = Conexion
+    Left = 480
+    Top = 288
+  end
+  object FDQEstudiantes: TFDQuery
+    Connection = Conexion
+    SQL.Strings = (
+      'Select * from estudiantes')
+    Left = 184
+    Top = 456
+  end
+  object DSP_estudiantes: TDataSetProvider
+    DataSet = FDQEstudiantes
+    Left = 64
+    Top = 456
+  end
+  object FDQGrid: TFDQuery
+    Connection = Conexion
+    Left = 472
+    Top = 440
+  end
+  object FDQActualizar: TFDQuery
+    Connection = Conexion
+    Left = 576
+    Top = 429
+  end
+  object FDQLogin: TFDQuery
+    Connection = Conexion
+    SQL.Strings = (
+      'select * from login')
+    Left = 58
+    Top = 58
+  end
+end

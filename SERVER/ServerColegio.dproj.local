@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/06/06 16:18:40.000.381,=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/06/06 16:18:40.000.677,=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\ServerContainerUnit1.pas</Transaction>
+    <Transaction>2024/06/06 16:18:40.000.587,=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\ServerMethodsUnit1.pas</Transaction>
+    <Transaction>2024/06/06 16:19:26.000.404,C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\ServerColegio.dproj=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2024/06/06 16:19:38.000.265,C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\UServidor.pas=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/06/06 16:19:38.000.265,C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\UServidor.fmx=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2024/06/06 16:20:29.000.339,C:\Users\francisco.corcoles\Desktop\Carmen\EjemploDataSnapBBDD\SERVER\UServidor.fmx=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\UServidor.fmx</Transaction>
+    <Transaction>2024/06/06 16:20:29.000.339,C:\Users\francisco.corcoles\Desktop\Carmen\EjemploDataSnapBBDD\SERVER\UServidor.pas=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\UServidor.pas</Transaction>
+    <Transaction>2024/06/06 16:20:31.000.343,C:\Users\francisco.corcoles\Desktop\Carmen\EjemploDataSnapBBDD\SERVER\ServerContainerUnit1.pas=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\ServerContainerUnit1.pas</Transaction>
+    <Transaction>2024/06/06 16:20:31.000.343,C:\Users\francisco.corcoles\Desktop\Carmen\EjemploDataSnapBBDD\SERVER\ServerContainerUnit1.dfm=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\ServerContainerUnit1.dfm</Transaction>
+    <Transaction>2024/06/06 16:20:32.000.639,C:\Users\francisco.corcoles\Desktop\Carmen\EjemploDataSnapBBDD\SERVER\ServerMethodsUnit1.dfm=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\ServerMethodsUnit1.dfm</Transaction>
+    <Transaction>2024/06/06 16:20:32.000.639,C:\Users\francisco.corcoles\Desktop\Carmen\EjemploDataSnapBBDD\SERVER\ServerMethodsUnit1.pas=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\ServerMethodsUnit1.pas</Transaction>
+    <Transaction>2024/06/06 16:20:34.000.966,C:\Users\francisco.corcoles\Desktop\Carmen\EjemploDataSnapBBDD\SERVER\ServerColegio.dproj=C:\Users\francisco.corcoles\Documents\Embarcadero\Studio\Projects\ServerColegio.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

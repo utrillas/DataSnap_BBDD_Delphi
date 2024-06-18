@@ -1,0 +1,242 @@
+unit ServerMethodsUnit1;
+
+interface
+
+uses System.SysUtils, System.Classes, System.Json,
+  DataSnap.DSProviderDataModuleAdapter,
+  DataSnap.DSServer, DataSnap.DSAuth, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.FMXUI.Wait,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet, Datasnap.Provider, vCL.Dialogs;
+
+type
+  TServerMethods1 = class(TDSServerModule)
+    Conexion: TFDConnection;
+    FDQInsert: TFDQuery;
+    FDQDelete: TFDQuery;
+    FDQEstudiantes: TFDQuery;
+    DSP_estudiantes: TDataSetProvider;
+    FDQGrid: TFDQuery;
+    FDQActualizar: TFDQuery;
+    FDQLogin: TFDQuery;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function InsertarEstudiante(nom, dir, tel, id_ciu, fec_nac: String): boolean;
+    function EliminarEstudiante(id: string):boolean;
+    function BuscarIdEstudiante(dato: String): tJsonArray;
+    function BuscarNombreEstudiante(dato: String):  tJsonArray;
+    function RellenarArray(FDQGrid: TFDQuery): tJsonArray;
+    function CargarGrid: tJsonArray;
+    function ActualizarEstudiante(id, nom, dir, tel, id_ciu, fec_nac: string): boolean;
+    function ValidarUsuario(login, passw, rol: String): boolean;
+
+  end;
+
+implementation
+
+{%CLASSGROUP 'FMX.Controls.TControl'}
+{$R *.dfm}
+
+uses System.StrUtils, UServidor;
+
+{ TServerMethods1 }
+
+//Función para actualizar los datos de un estudiante
+function TServerMethods1.ActualizarEstudiante(id, nom, dir, tel, id_ciu, fec_nac: string): boolean;
+var sql: string;
+begin
+Result:= False;
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Llamada a la función de actualización de estudiante');
+
+  try
+    begin
+    {FDQActualizar.SQL.Text:= 'UPDATE estudiantes set nombre = :nombre,  direccion = :direccion, telefono = :telefono '+
+                               ',id_ciudad = :id_ciudad, fecha_de_nacimiento = :fecha_de_nacimiento where id_estudiante = ' + id; }
+     {
+       // Asignar los valores como parametros
+        FDQActualizar.Params.ParamByName('nombre').AsString := nom;
+        FDQActualizar.Params.ParamByName('direccion').AsString := dir;
+        FDQActualizar.Params.ParamByName('telefono').AsString := tel;
+        FDQActualizar.Params.ParamByName('id_ciudad').AsString := id_ciu;
+        FDQActualizar.Params.ParamByName('fec_nac').AsString:= fec_nac;  }
+
+        FDQActualizar.SQL.Text:= 'UPDATE estudiantes SET nombre = ' + QuotedStr(nom) +
+                                  ' , direccion = ' + QuotedStr(dir) +
+                                  ' , telefono = ' + QuotedStr(tel) +
+                                  ' , id_ciudad = ' + id_ciu +
+                                  ' , fecha_de_nacimiento = ' + QuotedStr(fec_nac) +
+                                  ' WHERE id_estudiante = ' + id;
+         frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + FDQActualizar.SQL.Text);
+        FDQActualizar.ExecSQL;
+        Result := True;
+    end;
+
+  finally
+
+  end;
+
+end;
+// Función para realizar la busqueda
+function TServerMethods1.BuscarIdEstudiante(dato: String): tJsonArray;
+begin
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Llamada a la función de busqueda de estudiante por id');
+  try
+  begin
+    FDQGrid.SQL.Text:= 'SELECT * FROM estudiantes WHERE id_estudiante  = ' + dato;
+    Result:= RellenarArray(FDQGrid);
+    frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Estudiante encontrado por id_estudiante: '+ dato);
+  end;
+  Except
+  on E: Exception do
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Estudiante no encontrado por id_estudiante: ' + dato + ' la excepcion ha sido: ' + E.Message);
+  end;
+end;
+//Rellenar la Array con la query
+function TServerMethods1.RellenarArray(FDQGrid: TFDQuery): tJsonArray;
+var Row:  TJSONObject;
+    list: tJsonArray;
+begin
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'hemos entrado en la función para rellenar el Array');
+  Result := TJSONArray.Create;
+  FDQGrid.Open;
+  FDQGrid.First;
+  while not FDQGrid.Eof do
+    begin
+      Row:= TJSONObject.Create;
+      Row.AddPair('id_estudiante', FDQGrid.FieldByName('id_estudiante').AsString );
+      Row.AddPair('nombre', FDQGrid.FieldByName('nombre').AsString );
+      Row.AddPair('direccion', FDQGrid.FieldByName('direccion').AsString );
+      Row.AddPair('telefono', FDQGrid.FieldByName('telefono').AsString );
+      Row.AddPair('id_ciudad', FDQGrid.FieldByName('id_ciudad').AsString );
+      Row.AddPair('fecha_de_nacimiento', FDQGrid.FieldByName('fecha_de_nacimiento').AsString );
+      Result.AddElement(Row);
+      FDQGrid.Next;
+    end;
+end;
+//funcion para logearnos
+function TServerMethods1.ValidarUsuario(login, passw, rol: String): boolean;
+var
+  query: string;
+  fila: Integer;
+begin
+frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Llamada a la función de login ');
+frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + '[' + login + ', ' + passw + ', '+ rol +']');
+
+  query:= 'SELECT * FROM login where id_usuario = :id_usuario  AND contraseña = :passw AND tipo = :tipo';
+
+  FDQlogin.SQL.Clear;
+  FDQlogin.SQL.Add(query);
+
+  //asignar los parametros a la consulta
+  FDQlogin.ParamByName('id_usuario').AsString := login;
+  FDQlogin.ParamByName('passw').AsString := passw;
+  FDQlogin.ParamByName('tipo').AsString := rol;
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' +  query);
+  FDQlogin.Open;
+  fila:= FDQlogin.RecordCount;
+
+  if fila>0 then
+    begin
+      result:= true;
+    end
+  else
+    begin
+      result:= false;
+    end;
+end;
+
+// Función para realizar la busqueda por nombre
+function TServerMethods1.BuscarNombreEstudiante(dato: String): tJsonArray;
+begin
+frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Llamada a la función de busqueda de estudiante por nombre ');
+  try
+    begin
+      FDQGrid.SQL.Text:= 'SELECT * FROM estudiantes WHERE nombre like ''%' + dato +'%''';
+       frmServidor.MServerColegio.Lines.Add(FDQGrid.SQL.Text);
+      Result:= RellenarArray(FDQGrid);
+      frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Estudiante encontrado por nombre: '+ dato);
+    end;
+  Except
+  on E: Exception do
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Estudiante no encontrado por nombre: ' + dato + ' la excepcion ha sido: ' + E.Message);
+  end;
+end;
+
+//Cargar el grid con toda la tabla
+function TServerMethods1.CargarGrid: tJsonArray;
+begin
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Llamada a la función cargar el grid con la tabla estudiantes');
+  try
+    begin
+      FDQGrid.SQL.Text:= 'SELECT * FROM estudiantes';
+      frmServidor.MServerColegio.Lines.Add(FDQGrid.SQL.Text);
+      Result:= RellenarArray(FDQGrid);
+      frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Rellenar grid con los estudiantes de la tabla');
+    end;
+  Except
+  on E: Exception do
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'No se han encontrado alumnos en la tabla. La excepcion ha sido: ' + E.Message);
+  end;
+end;
+
+// Función para elilminar estudiantes.
+function TServerMethods1.EliminarEstudiante(id: string): boolean;
+var
+  sql: string;
+begin
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Llamada a la función de borrado de estudiante ');
+  try
+    // construimos las consulta sql
+    sql := 'DELETE FROM estudiantes WHERE id_estudiante = :id';
+    FDQDelete.sql.Text := sql;
+
+    // Asignar los valores como parametros
+    FDQDelete.Params.ParamByName('id').AsString := id;
+
+    FDQDelete.ExecSQL;
+    Result := True;
+  Except
+    on E: Exception do
+    begin
+      Result := False;
+      frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'No se ha podido borrar al estudiante. ');
+    end;
+  end;
+end;
+// Función para insertar nuevos estudiantes.
+function TServerMethods1.InsertarEstudiante(nom, dir, tel, id_ciu, fec_nac: String): boolean;
+var
+  sql: string;
+  dateValue: TDateTime;
+begin
+  frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'Llamada a la función de insertar nuevo estudiante. ');
+  try
+    // construimos las consulta sql
+    sql := 'INSERT INTO estudiantes(nombre, direccion, telefono, id_ciudad, fecha_de_nacimiento)'
+      + 'VALUES (:nombre, :direccion, :telefono, :id_ciudad, :fec_nac)';
+    FDQInsert.sql.Text := sql;
+
+    // Asignar los valores como parametros
+    FDQInsert.Params.ParamByName('nombre').AsString := nom;
+    FDQInsert.Params.ParamByName('direccion').AsString := dir;
+    FDQInsert.Params.ParamByName('telefono').AsString := tel;
+    FDQInsert.Params.ParamByName('id_ciudad').AsString := id_ciu;
+    FDQInsert.Params.ParamByName('fec_nac').AsString := fec_nac;
+    FDQInsert.ExecSQL;
+    Result := True;
+  Except
+    on E: Exception do
+    begin
+      Result := False;
+      frmServidor.MServerColegio.Lines.Add('['+DateTimeToStr(now) + ']' + 'No se ha podido insertar al nuevo estudiante ')
+    end;
+  end;
+end;
+
+
+
+end.

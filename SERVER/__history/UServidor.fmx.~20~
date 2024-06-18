@@ -1,0 +1,101 @@
+object frmServidor: TfrmServidor
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'SERVIDOR DATASNAP'
+  ClientHeight = 296
+  ClientWidth = 680
+  Position = ScreenCenter
+  StyleBook = StyleBook1
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  DesignerMasterStyle = 0
+  object Label1: TLabel
+    Align = Top
+    StyledSettings = [Family]
+    Size.Width = 680.000000000000000000
+    Size.Height = 65.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 28.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = claDarkcyan
+    TextSettings.HorzAlign = Center
+    Text = 'APAGADO'
+    TabOrder = 1
+    object ShadowEffect3: TShadowEffect
+      Distance = 3.000000000000000000
+      Direction = 45.000000000000000000
+      Softness = 1.000000000000000000
+      Opacity = 1.000000000000000000
+      ShadowColor = claChartreuse
+      Enabled = False
+    end
+  end
+  object Switch1: TSwitch
+    IsChecked = False
+    Position.X = 56.000000000000000000
+    Position.Y = 96.000000000000000000
+    Size.Width = 176.000000000000000000
+    Size.Height = 57.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    OnSwitch = Switch1Switch
+    object ShadowEffect1: TShadowEffect
+      Distance = 3.000000000000000000
+      Direction = 45.000000000000000000
+      Softness = 1.000000000000000000
+      Opacity = 1.000000000000000000
+      ShadowColor = claChartreuse
+      Enabled = False
+    end
+  end
+  object btnSalir: TButton
+    StyledSettings = [Family, Size, Style]
+    Position.X = 80.000000000000000000
+    Position.Y = 192.000000000000000000
+    Size.Width = 128.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Text = 'Salir'
+    TextSettings.FontColor = claDeeppink
+    OnClick = btnSalirClick
+    object ShadowEffect2: TShadowEffect
+      Distance = 3.000000000000000000
+      Direction = 45.000000000000000000
+      Softness = 1.000000000000000000
+      Opacity = 1.000000000000000000
+      ShadowColor = claChartreuse
+      Enabled = False
+    end
+  end
+  object StyleBook1: TStyleBook
+    Styles = <
+      item
+      end>
+    Left = 16
+    Top = 264
+  end
+  object Panel1: TPanel
+    Align = Right
+    Position.X = 560.000000000000000000
+    Position.Y = 65.000000000000000000
+    Size.Width = 120.000000000000000000
+    Size.Height = 231.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    object MServerColegio: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      Align = Right
+      Position.X = -288.000000000000000000
+      Size.Width = 408.000000000000000000
+      Size.Height = 231.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Viewport.Width = 404.000000000000000000
+      Viewport.Height = 227.000000000000000000
+    end
+  end
+end
