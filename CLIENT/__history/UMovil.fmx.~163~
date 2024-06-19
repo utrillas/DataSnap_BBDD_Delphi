@@ -16,7 +16,7 @@
     Size.Width = 304.000000000000000000
     Size.Height = 624.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 5
     TabPosition = PlatformDefault
     Sizes = (
@@ -264,7 +264,7 @@
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 78.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -535,7 +535,7 @@
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 102.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False

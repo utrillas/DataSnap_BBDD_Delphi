@@ -3,8 +3,8 @@
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'ClienteDataSnap'
-  ClientHeight = 622
-  ClientWidth = 803
+  ClientHeight = 624
+  ClientWidth = 304
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -13,21 +13,21 @@
   DesignerMasterStyle = 0
   object TabColegio: TTabControl
     Align = Client
-    Size.Width = 803.000000000000000000
-    Size.Height = 622.000000000000000000
+    Size.Width = 304.000000000000000000
+    Size.Height = 624.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 5
     TabPosition = PlatformDefault
     Sizes = (
-      803s
-      596s
-      803s
-      596s
-      803s
-      596s
-      803s
-      596s)
+      304s
+      598s
+      304s
+      598s
+      304s
+      598s
+      304s
+      598s)
     object TEstudiante: TTabItem
       CustomIcon = <
         item
@@ -39,24 +39,26 @@
       StyleLookup = ''
       TabOrder = 0
       Text = 'Estudiante'
+      ExplicitSize.cx = 76.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object VertScrollBox1: TVertScrollBox
         Align = Client
-        Size.Width = 803.000000000000000000
-        Size.Height = 596.000000000000000000
+        Size.Width = 304.000000000000000000
+        Size.Height = 598.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
-        Viewport.Width = 803.000000000000000000
-        Viewport.Height = 596.000000000000000000
+        Viewport.Width = 304.000000000000000000
+        Viewport.Height = 598.000000000000000000
         object Panel1: TPanel
           Align = Top
-          Size.Width = 803.000000000000000000
+          Size.Width = 304.000000000000000000
           Size.Height = 43.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 1
           object lblnicio: TLabel
             Align = Top
             StyledSettings = [Family]
-            Size.Width = 803.000000000000000000
+            Size.Width = 304.000000000000000000
             Size.Height = 33.000000000000000000
             Size.PlatformDefault = False
             TextSettings.Font.Size = 20.000000000000000000
@@ -69,52 +71,28 @@
         end
         object Panel2: TPanel
           Align = Client
-          Size.Width = 803.000000000000000000
-          Size.Height = 553.000000000000000000
+          Size.Width = 304.000000000000000000
+          Size.Height = 555.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 2
-          object btnActualizar: TButton
-            StyledSettings = [Family, Size, Style]
-            Position.X = 164.000000000000000000
-            Position.Y = 264.000000000000000000
-            Size.Width = 97.000000000000000000
-            Size.Height = 22.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 8
-            Text = 'Actualizar'
-            TextSettings.FontColor = claBlue
-            OnClick = btnActualizarClick
-          end
           object btnBuscar: TButton
             StyledSettings = [Family, Size, Style]
-            Position.X = 20.000000000000000000
-            Position.Y = 310.000000000000000000
-            Size.Width = 272.000000000000000000
-            Size.Height = 22.000000000000000000
+            Position.X = 8.000000000000000000
+            Position.Y = 288.000000000000000000
+            Size.Width = 284.000000000000000000
+            Size.Height = 44.000000000000000000
             Size.PlatformDefault = False
-            TabOrder = 16
+            TabOrder = 14
             Text = 'Buscar'
             TextSettings.FontColor = claBlue
             OnClick = btnBuscarClick
           end
-          object btnCarga: TButton
-            StyledSettings = [Family, Size, Style]
-            Position.X = 36.000000000000000000
-            Position.Y = 264.000000000000000000
-            Size.Width = 97.000000000000000000
-            Size.Height = 22.000000000000000000
-            Size.PlatformDefault = False
-            TabOrder = 9
-            Text = 'Carga'
-            TextSettings.FontColor = claBlue
-            OnClick = btnCargaClick
-          end
           object btnClear: TButton
             StyledSettings = [Family, Size, Style]
-            Position.X = 20.000000000000000000
-            Position.Y = 220.000000000000000000
-            Size.Width = 261.000000000000000000
-            Size.Height = 22.000000000000000000
+            Position.X = 8.000000000000000000
+            Position.Y = 236.000000000000000000
+            Size.Width = 284.000000000000000000
+            Size.Height = 37.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 5
             Text = 'Limpiar campos'
@@ -129,33 +107,33 @@
           end
           object ECiudad: TEdit
             Touch.InteractiveGestures = [LongTap, DoubleTap]
-            TabOrder = 10
+            TabOrder = 8
             Position.X = 159.000000000000000000
             Position.Y = 141.000000000000000000
             OnKeyDown = ECiudadKeyDown
           end
           object EDireccion: TEdit
             Touch.InteractiveGestures = [LongTap, DoubleTap]
-            TabOrder = 14
+            TabOrder = 12
             Position.X = 159.000000000000000000
             Position.Y = 81.000000000000000000
           end
           object EId: TEdit
             Touch.InteractiveGestures = [LongTap, DoubleTap]
-            TabOrder = 12
+            TabOrder = 10
             Position.X = 159.000000000000000000
             Position.Y = 21.000000000000000000
           end
           object ENombre: TEdit
             Touch.InteractiveGestures = [LongTap, DoubleTap]
-            TabOrder = 13
+            TabOrder = 11
             Position.X = 159.000000000000000000
             Position.Y = 51.000000000000000000
             OnKeyDown = ENombreKeyDown
           end
           object ETelefon: TEdit
             Touch.InteractiveGestures = [LongTap, DoubleTap]
-            TabOrder = 11
+            TabOrder = 9
             KeyboardType = NumberPad
             Position.X = 159.000000000000000000
             Position.Y = 111.000000000000000000
@@ -241,7 +219,7 @@
             Size.Width = 284.000000000000000000
             Size.Height = 173.000000000000000000
             Size.PlatformDefault = False
-            TabOrder = 15
+            TabOrder = 13
             Options = [Editing, ColumnResize, ColumnMove, ColLines, RowLines, RowSelect, Tabs, Header, HeaderClick, AutoDisplacement]
             OnCellClick = StringGrid1CellClick
             Viewport.Width = 264.000000000000000000
@@ -268,11 +246,11 @@
           object btnOutEstu: TButton
             Align = Bottom
             StyledSettings = [Family]
-            Position.Y = 513.000000000000000000
-            Size.Width = 803.000000000000000000
+            Position.Y = 515.000000000000000000
+            Size.Width = 304.000000000000000000
             Size.Height = 40.000000000000000000
             Size.PlatformDefault = False
-            TabOrder = 18
+            TabOrder = 16
             Text = 'Salir'
             TextSettings.Font.Size = 15.000000000000000000
             TextSettings.Font.StyleExt = {00070000000000000004000000}
@@ -286,23 +264,25 @@
       CustomIcon = <
         item
         end>
-      IsSelected = True
-      Size.Width = 79.000000000000000000
+      IsSelected = False
+      Size.Width = 78.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'TSecretaria'
+      ExplicitSize.cx = 79.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object Panel4: TPanel
         Align = Top
-        Size.Width = 803.000000000000000000
+        Size.Width = 304.000000000000000000
         Size.Height = 43.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
         object Label1: TLabel
           Align = Top
           StyledSettings = [Family]
-          Size.Width = 803.000000000000000000
+          Size.Width = 304.000000000000000000
           Size.Height = 33.000000000000000000
           Size.PlatformDefault = False
           TextSettings.Font.Size = 20.000000000000000000
@@ -315,8 +295,8 @@
       end
       object Panel5: TPanel
         Align = Client
-        Size.Width = 803.000000000000000000
-        Size.Height = 553.000000000000000000
+        Size.Width = 304.000000000000000000
+        Size.Height = 555.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 2
         object Button1: TButton
@@ -538,8 +518,8 @@
         object btnOut: TButton
           Align = Bottom
           StyledSettings = [Family]
-          Position.Y = 513.000000000000000000
-          Size.Width = 803.000000000000000000
+          Position.Y = 515.000000000000000000
+          Size.Width = 304.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 19
@@ -555,13 +535,42 @@
       CustomIcon = <
         item
         end>
-      IsSelected = False
-      Size.Width = 101.000000000000000000
+      IsSelected = True
+      Size.Width = 102.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'TAdministrador'
+      ExplicitSize.cx = 101.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object Panel6: TPanel
+        Align = Client
+        Size.Width = 304.000000000000000000
+        Size.Height = 598.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object Panel7: TPanel
+          Align = Top
+          Size.Width = 304.000000000000000000
+          Size.Height = 81.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          object Label8: TLabel
+            Align = Client
+            StyledSettings = [Family]
+            Size.Width = 304.000000000000000000
+            Size.Height = 81.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 28.000000000000000000
+            TextSettings.Font.StyleExt = {00070000000000000004000000}
+            TextSettings.FontColor = claBlue
+            TextSettings.HorzAlign = Center
+            Text = 'ADMINISTRADOR'
+            TabOrder = 0
+          end
+        end
+      end
     end
     object Tlogin: TTabItem
       CustomIcon = <
@@ -574,17 +583,19 @@
       StyleLookup = ''
       TabOrder = 0
       Text = 'Login'
+      ExplicitSize.cx = 50.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object Panel3: TPanel
         Align = Client
-        Size.Width = 803.000000000000000000
-        Size.Height = 596.000000000000000000
+        Size.Width = 304.000000000000000000
+        Size.Height = 598.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         object btnAceptar: TButton
           StyledSettings = [Family, Size]
-          Position.X = 42.000000000000000000
-          Position.Y = 231.000000000000000000
-          Size.Width = 211.000000000000000000
+          Position.X = 25.000000000000000000
+          Position.Y = 191.000000000000000000
+          Size.Width = 256.000000000000000000
           Size.Height = 22.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
@@ -595,9 +606,9 @@
         end
         object btnSalir: TButton
           StyledSettings = [Family, Size]
-          Position.X = 42.000000000000000000
-          Position.Y = 282.000000000000000000
-          Size.Width = 210.000000000000000000
+          Position.X = 25.000000000000000000
+          Position.Y = 554.000000000000000000
+          Size.Width = 256.000000000000000000
           Size.Height = 22.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 9
@@ -642,6 +653,14 @@
           Position.Y = 501.000000000000000000
           TabOrder = 10
           OnSwitch = Switch1Switch
+          object ShadowEffect1: TShadowEffect
+            Distance = 3.000000000000000000
+            Direction = 45.000000000000000000
+            Softness = 0.200000002980232200
+            Opacity = 1.000000000000000000
+            ShadowColor = claAquamarine
+            Enabled = False
+          end
         end
         object txtConexion: TLabel
           StyledSettings = [Family]
@@ -655,6 +674,14 @@
           TextSettings.FontColor = claBlue
           Text = 'OFF'
           TabOrder = 11
+          object ShadowEffect2: TShadowEffect
+            Distance = 3.000000000000000000
+            Direction = 45.000000000000000000
+            Softness = 0.500000000000000000
+            Opacity = 1.000000000000000000
+            ShadowColor = claAquamarine
+            Enabled = False
+          end
         end
         object txtContraseña: TLabel
           StyledSettings = [Family]
@@ -672,14 +699,15 @@
         object txtHostname: TEdit
           Touch.InteractiveGestures = [LongTap, DoubleTap]
           TabOrder = 12
-          Position.X = 8.000000000000000000
+          Position.X = 25.000000000000000000
           Position.Y = 506.000000000000000000
         end
         object txtIP: TLabel
-          StyledSettings = [Family, Style]
-          Position.X = 8.000000000000000000
+          StyledSettings = [Family]
+          Position.X = 25.000000000000000000
           Position.Y = 481.000000000000000000
           TextSettings.Font.Size = 14.000000000000000000
+          TextSettings.Font.StyleExt = {00060000000000000004000000}
           TextSettings.FontColor = claBlue
           Text = 'IP'
           TabOrder = 13
@@ -687,7 +715,7 @@
         object txtLogin: TLabel
           Align = Top
           StyledSettings = [Family]
-          Size.Width = 803.000000000000000000
+          Size.Width = 304.000000000000000000
           Size.Height = 34.000000000000000000
           Size.PlatformDefault = False
           TextSettings.Font.Size = 20.000000000000000000
@@ -757,8 +785,8 @@
   object BindingsList1: TBindingsList
     Methods = <>
     OutputConverters = <>
-    Left = 20
-    Top = 5
+    Left = 412
+    Top = 141
     object LinkGridToDataSourceBindSourceDB2: TLinkGridToDataSource
       Category = 'Quick Bindings'
       DataSource = BindSourceDB2

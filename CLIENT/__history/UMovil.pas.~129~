@@ -10,7 +10,8 @@ uses
   System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid, Datasnap.DBClient,
   Data.Bind.EngExt, Fmx.Bind.DBEngExt, Fmx.Bind.Grid, System.Bindings.Outputs,
   Fmx.Bind.Editors, Data.Bind.Components, Data.Bind.Grid, Data.Bind.DBScope, Json,
-  FMX.TabControl, FMX.Layouts, FMX.MultiView;
+  FMX.TabControl, FMX.Layouts, FMX.MultiView, Data.FMTBcd, Data.Bind.DBXScope,
+  FMX.Effects, FMX.Objects;
 
 type
   TForm1 = class(TForm)
@@ -22,8 +23,6 @@ type
     lblCiudad: TLabel;
     DEFecha_Nac: TDateEdit;
     lblFechaNac: TLabel;
-    btnCarga: TButton;
-    btnActualizar: TButton;
     EDireccion: TEdit;
     ETelefon: TEdit;
     ENombre: TEdit;
@@ -81,9 +80,29 @@ type
     btnOutEstu: TButton;
     BindSourceDB1: TBindSourceDB;
     CDSEstudiantes: TClientDataSet;
-    BindSourceDB2: TBindSourceDB;
     BindingsList1: TBindingsList;
+    BindingsList2: TBindingsList;
+    BindSourceDB2: TBindSourceDB;
     LinkGridToDataSourceBindSourceDB2: TLinkGridToDataSource;
+    LinkGridToDataSourceBindSourceDB22: TLinkGridToDataSource;
+    StringColumn1: TStringColumn;
+    StringColumn2: TStringColumn;
+    StringColumn3: TStringColumn;
+    StringColumn4: TStringColumn;
+    StringColumn5: TStringColumn;
+    StringColumn6: TStringColumn;
+    BindSourceDBX1: TBindSourceDBX;
+    StringColumn7: TStringColumn;
+    StringColumn8: TStringColumn;
+    StringColumn9: TStringColumn;
+    StringColumn10: TStringColumn;
+    StringColumn11: TStringColumn;
+    StringColumn12: TStringColumn;
+    ShadowEffect1: TShadowEffect;
+    ShadowEffect2: TShadowEffect;
+    Panel6: TPanel;
+    Panel7: TPanel;
+    Label8: TLabel;
     procedure btnCargaClick(Sender: TObject);
     procedure btnNuevoClick(Sender: TObject);
     procedure btnEliminarClick(Sender: TObject);
@@ -105,6 +124,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnOutClick(Sender: TObject);
     procedure btnSalirClick(Sender: TObject);
+    procedure Image1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -300,7 +320,7 @@ end;
 
 procedure TForm1.btnSalirClick(Sender: TObject);
 begin
-  exit;
+  Application.Terminate;
 end;
 
 //En el edit Ciudad solamente se puede introducir números ya que se pide el código postal.
@@ -337,6 +357,11 @@ begin
   TabColegio.Tabs[2].Visible:= false;
   TabColegio.Tabs[1].Visible:= false;
   TabColegio.Tabs[0].Visible:= false;
+end;
+
+procedure TForm1.Image1Click(Sender: TObject);
+begin
+
 end;
 
 //ocultar las pestañas
@@ -426,6 +451,8 @@ if switch1.IsChecked =  true then
       try
         SQLConnection1.connected:= true;
         txtConexion.Text:= 'ON';
+        ShadowEffect1.Enabled := true;
+        ShadowEffect2.Enabled := true;
       except
         on E: Exception do
         Showmessage(E.Message + 'Error de conexion con servidor')
@@ -436,6 +463,8 @@ if switch1.IsChecked =  true then
           SQLConnection1.connected := false;
           txtConexion.Text:= 'OFF';
           switch1.IsChecked := false;
+          ShadowEffect1.Enabled := false;
+          ShadowEffect2.Enabled := false;
         end;
   end
 else

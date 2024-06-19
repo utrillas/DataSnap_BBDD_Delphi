@@ -103,6 +103,7 @@ type
     Panel6: TPanel;
     Panel7: TPanel;
     Label8: TLabel;
+    Image1: TImage;
     procedure btnCargaClick(Sender: TObject);
     procedure btnNuevoClick(Sender: TObject);
     procedure btnEliminarClick(Sender: TObject);
